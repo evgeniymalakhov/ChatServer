@@ -19,6 +19,6 @@ from chat.views import HomePageView, ChatRoomView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='index'),
-    path('room/<str:room_name>/', ChatRoomView.as_view(), name='room'),
+    path('message/<str:id>/', ChatRoomView.as_view(), name='room'),
     # path('room/<int:room_id>/$', MessagesView.as_view(), name='messages'),
 ]

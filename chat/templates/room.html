@@ -37,50 +37,60 @@
     </div>{% endcomment %}
 
 
-<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
+<textarea id="chat-log" cols="100" rows="20">{{ chat_messages }}</textarea><br/>
+<input id="chat-message-input" type="text" size="100"/><br/>
+<input id="chat-message-submit" type="button" value="Send"/>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
-    <script>
-        var roomName = "{{ room_name|escapejs }}";
-        console.log(roomName);
-        var chatSocket = new ReconnectingWebSocket(
-            'ws://' + window.location.host +
-            '/ws/chat/' + roomName + '/');
+<h3>Chats:</h3>
+    <ul>
+        {% for room in rooms %}
+            <li>
+                <a href="/message/{% if room.first.id == user.id %}{{ room.second.id }}{% else %}{{ room.first.id }}{% endif %}/">
+                    {% if room.first.id == user.id %} {{ room.second.first_name }} {% else %} {{ room.first.first_name }} {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+<script>
+    {% comment %}var username = "{{ username|escapejs }}";
+    console.log(username);{% endcomment %}
+    var chatSocket = new ReconnectingWebSocket(
+        'ws://' + window.location.host + window.location.pathname);
 
-        chatSocket.onopen = function(e) {
-            console.log(e)
-        };
+    chatSocket.onopen = function(e) {
+        console.log(e)
+    };
 
-        chatSocket.onmessage = function(e) {
-            let data = JSON.parse(e.data);
-            let message = data['message'];
-            let user = data['user'];
+    chatSocket.onmessage = function(e) {
+        let data = JSON.parse(e.data);
+        console.log(data);
+        let message = data['message'];
+        let user = data['user'];
 
-            document.querySelector('#chat-log').value += (user + ' - ' + message + '\n');
-            document.querySelector('#chat-log').scrollTop = 9999
-        };
+        document.querySelector('#chat-log').value += (user + ' - ' + message + '\n');
+        document.querySelector('#chat-log').scrollTop = 9999
+    };
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            var messageInputDom = document.querySelector('#chat-message-input');
-            var message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        var messageInputDom = document.querySelector('#chat-message-input');
+        var message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
 
-            messageInputDom.value = '';
-        };
-    </script>
+        messageInputDom.value = '';
+    };
+</script>
 {% endblock %}

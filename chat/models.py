@@ -7,20 +7,19 @@ from django.db import models
 
 class RoomManager(models.Manager):
     def get_or_new(self, user, other_user: int):
-        user_id = user.pk
-        if user_id == other_user:
+        if user.pk == other_user:
             return None
-        qlookup_1 = Q(first__pk=user_id) & Q(second__pk=other_user)
-        qlookup_2 = Q(first__pk=other_user) & Q(second__pk=user_id)
+        qlookup_1 = Q(first__pk=user.pk) & Q(second__pk=other_user)
+        qlookup_2 = Q(first__pk=other_user) & Q(second__pk=user.pk)
         qs = self.get_queryset().filter(qlookup_1 | qlookup_2).distinct()
 
         if qs.count() == 1:
             return qs.first(), False
-        elif qs.count > 1:
+        elif qs.count() > 1:
             return qs.order_by('').first(), False
         else:
             Klass = user.__class__
-            user2 = Klass.object.get(pk=other_user)
+            user2 = Klass.objects.get(id=other_user)
             if user != user2:
                 obj = self.model(
                     first=user,
@@ -53,10 +52,10 @@ class Message(models.Model):
         on_delete=models.CASCADE)
     message = models.TextField(_("Message"))
     pub_date = models.DateTimeField(
-        _("Date Created"),
+        verbose_name=_("Date Created"),
         default=timezone.now)
     is_readed = models.BooleanField(
-        _("Readed"),
+        verbose_name=_("Readed"),
         default=False)
 
     class Meta:
