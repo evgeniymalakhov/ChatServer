@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
-
-{% block custom_scripts %}
-    <script src="{% static "navbar.js" %}"></script>
-{% endblock %}
 
 {% block content %}
-    Hello from Chat
-
     <div class="row">
         {% for user in users %}
         <div class="col s3 m3">
@@ -24,4 +17,8 @@
         </div>
         {% endfor %}
     </div>
+    <script>
+
+        console.log(moment().format('MMM. DD, YYYY, h:mm a'))
+    </script>
 {% endblock %}

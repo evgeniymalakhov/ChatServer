@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv as env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -137,6 +138,8 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_FORMS = {
     'signup': 'chat.forms.UserSignUpForm',
 }
+
+EMAIL_BACKEND = os.getenv('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
