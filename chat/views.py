@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
 from django.db.models import Q
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
+from application.models import User
 from .mixins import LoginRequiredMixin
 from .models import Message, Room
 
@@ -15,7 +15,7 @@ class HomePageView(TemplateView):
 
 
 class ChatRoomView(LoginRequiredMixin, TemplateView):
-    template_name = 'messages.html'
+    template_name = 'chat/messages.html'
 
     def get_context_data(self, **kwargs):
         context = super(ChatRoomView, self).get_context_data(**kwargs)

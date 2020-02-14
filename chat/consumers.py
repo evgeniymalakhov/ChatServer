@@ -13,26 +13,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def websocket_connect(self, message):
         self.room = await self.get_room()
-        self.room_group_name = f'chat_{self.room.id}'
 
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+        if self.room is not None:
+            self.room_group_name = f'chat_{self.room.id}'
 
-        await self.accept()
+            # Join room group
+            await self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name
+            )
+
+            await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        if self.room_group_name:
+            await self.channel_layer.group_discard(
+                self.room_group_name,
+                self.channel_name
+            )
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json.get('message', None)
-        if message is not None:
+        if message is not None and self.room_group_name:
             user_from = self.scope['user']
 
             await self.create_chat_message(message)

@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.171', '127.0.0.1', '10.0.0.103']
 
-
+AUTH_USER_MODEL = 'application.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'channels',
     'chat.apps.ChatConfig',
+    'application.apps.ApplicationConfig'
 ]
 
 MIDDLEWARE = [
@@ -137,7 +138,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_FORMS = {
-    'signup': 'chat.forms.UserSignUpForm',
+    'signup': 'application.forms.UserSignUpForm',
 }
 
 EMAIL_BACKEND = os.getenv('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
@@ -160,3 +161,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
