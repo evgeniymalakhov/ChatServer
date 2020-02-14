@@ -13,7 +13,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def websocket_connect(self, message):
         self.room = await self.get_room()
-        # print(var_dump(self.room))
         self.room_group_name = f'chat_{self.room.id}'
 
         # Join room group

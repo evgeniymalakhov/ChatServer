@@ -10,9 +10,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-
         context['users'] = User.objects.exclude(id=self.request.user.id)
-
         return context
 
 
@@ -27,7 +25,6 @@ class ChatRoomView(LoginRequiredMixin, TemplateView):
         )
 
         context['rooms'] = Room.objects.filter(
-            (Q(first__id=kwargs['id']) & Q(second__id=self.request.user.id)) |
-            (Q(first__id=self.request.user.id) & Q(second__id=kwargs['id']))
+            Q(first__id=self.request.user.id) | Q(second__id=self.request.user.id)
         )
         return context
