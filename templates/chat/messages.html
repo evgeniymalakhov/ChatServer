@@ -25,7 +25,9 @@
                         {% for room in rooms %}
                         <div class="chat_list{% if room.id == messages.last.room.id %} active_chat{% endif %}">
                             <div class="chat_people">
-                                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                <div class="chat_img">
+                                    <img src="{% if room.first.id == user.id %} {{ room.second.photo.url }} {% else %} {{ room.first.photo.url }} {% endif %}" alt="sunil" class="profile_img">
+                                </div>
                                 <div class="chat_ib">
                                 {% if room.first_id == user.id %}
                                     <a href="{% url 'room' room.second_id %}">
@@ -49,7 +51,7 @@
                         <div class="{% if message.author.id == user.id %}outgoing_msg{% else %}incoming_msg{% endif %}">
                             {% if message.author.id != user.id %}
                                 <div class="incoming_msg_img">
-                                    <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    <img src="{{ message.author.photo.url }}" alt="sunil" class="profile_img">
                                 </div>
                             {% endif %}
                             <div class="{% if message.author.id == user.id %}sent_msg{% else %}received_msg{% endif %}">

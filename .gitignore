@@ -2,4 +2,6 @@
 venv
 db.sqlite3
 .env
-media
+
+!media/users/user-profile.png
+media/users/

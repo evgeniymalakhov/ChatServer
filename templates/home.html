@@ -6,19 +6,15 @@
         <div class="col s3 m3">
             <div class="card">
                 <div class="card-image">
-                    <img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png">
+                    <img src="{{ user.photo.url }}">
                     <span class="card-title">{{ user.first_name }} {{ user.last_name }}</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
                 </div>
                 <div class="card-action">
-                    <a href="/message/{{ user.id }}/">Send message</a>
+                    <a href="{% url 'room' user.id %}">Send message</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-    <script>
-
-        console.log(moment().format('MMM. DD, YYYY, h:mm a'))
-    </script>
 {% endblock %}
