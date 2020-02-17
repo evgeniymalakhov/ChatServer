@@ -5,3 +5,7 @@ __pycache__
 venv
 **/migrations/
 db.sqlite3
+.env
+
+!media/users/user-profile.png
+media/users/
