@@ -1,3 +1,7 @@
 .idea
+*.pyc
+__pycache__
+**/ChatServer/settings.py
 venv
+**/migrations/
 db.sqlite3
