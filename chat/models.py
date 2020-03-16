@@ -7,7 +7,7 @@ from application.models import User
 
 
 class RoomManager(models.Manager):
-    def get_or_new(self, user, other_user: int):
+    def get_or_new(self, user, other_user):
         if user.pk == other_user:
             return None
         qlookup_1 = Q(first__pk=user.pk) & Q(second__pk=other_user)
