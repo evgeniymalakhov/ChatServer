@@ -1,2 +1,2 @@
 web: gunicorn ChatServer.wsgi
-release: ./post_complite.sh
+release: python manage.py migrate
