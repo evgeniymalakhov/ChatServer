@@ -1,1 +1,1 @@
-web: gunicorn ChatServer.wsgi
+web: gunicorn -b :$PORT ChatServer.wsgi
