@@ -1,4 +1,4 @@
 if [ $AUTO_MIGRATE == True ]; then
   echo "=> Performing database migrations..."
-  python 'app_name'/manage.py migrate
+  python ChatServer/manage.py migrate
 fi
