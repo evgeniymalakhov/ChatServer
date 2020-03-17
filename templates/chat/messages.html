@@ -80,7 +80,7 @@
         {% comment %}var username = "{{ username|escapejs }}";
         console.log(username);{% endcomment %}
         let chatSocket = new ReconnectingWebSocket(
-            'ws://' + window.location.host + window.location.pathname);
+            'wss://' + window.location.host + window.location.pathname);
 
         let currentUser = "{{ user.first_name|escapejs }}";
 
