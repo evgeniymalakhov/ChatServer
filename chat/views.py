@@ -19,7 +19,7 @@ class ChatRoomView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ChatRoomView, self).get_context_data(**kwargs)
-        context['messages'] = Message.objects.filter(room=
+        context['messages'] = Message.objects.filter(
             Q(room__first=int(kwargs['id'])) & Q(room__second=int(self.request.user.id)) |
             Q(room__first=int(self.request.user.id)) & Q(room__second=int(kwargs['id'])))
 
