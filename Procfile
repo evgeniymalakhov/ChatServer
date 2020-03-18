@@ -1,2 +1,2 @@
-web: python manage.py runserver
+web: daphne ChatServer.asgi:application
 release: python manage.py migrate

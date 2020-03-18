@@ -79,8 +79,14 @@
     <script>
         {% comment %}var username = "{{ username|escapejs }}";
         console.log(username);{% endcomment %}
+        let ws_scheme = "ws://";
+
+        if (window.location.protocol === "https:") {
+            ws_scheme = "wss://";
+        }
+
         let chatSocket = new ReconnectingWebSocket(
-            'wss://' + window.location.host + window.location.pathname,
+            ws_scheme + window.location.host + window.location.pathname,
             null,
             {
                 reconnectInterval: 3000,
